@@ -1,0 +1,164 @@
+Title : Medication-Management-Tool
+
+1. Business Scenario
+Managing different medications can be pretty cumbersome for a patient, especially if they are
+taking medication for different ailments.
+First, there’s the issue of keeping the schedule of every medication in mind. Then, they have to
+manage the quantity of every medication and get more before one of them runs out. Missing on
+dosage can be very harmful to a patient’s well-being.
+
+2. Business Process Requriments
+We need to create a digital solution for helping people with medication management. They would
+have to enter their different medication and its schedule once into the application. Then the
+application will alert them about their dosage time and track how many doses they have taken to
+remind them about buying more medicine.
+A personal management tool that allows users to input prescription details, and send
+reminders for when they need to be taken or refilled. This tool is ideal for users with multiple
+different prescriptions to keep track of and aims to help reduce the likelihood of missing
+doses.
+
+Tasks
+1. Develop a system for tracking prescriptions and dosages.
+2. Include features for alerts and reminders for both patients and providers.
+3. Integrate with pharmacy systems for real-time updates
+4. Input prescription details, including medication name, dosage, and
+instructions.
+5. Set customizable medication reminder notifications.
+6. Receive notifications for upcoming medication doses.
+7. Get alerted when it's time to refill your prescriptions.
+8. Store important information about your healthcare providers and pharmacies.
+
+-----------------------------------------------------------------------
+	
+Roles:
+	Hospital - Manage patients and their medications
+	Patient - Manage their medication scedule
+	Pharmacy - Manage medication refills
+	
+-------------------------------------------------------------------------
+
+Use cases:
+	Patient:
+		Prescription Management & Medication management
+		Reminder management
+		Request for refill
+		Recieve the notification to refill once prescription has been ended.
+
+	Hospital:
+		Patient management and their Prescription management
+		Refill management:
+			View refill requests from patients
+			Approve or deny refill requests
+		
+	Pharmacy:
+		Refill management:
+			View refill requests from patients
+			Approve or deny refill requests1
+
+-------------------------------------------------------------------------------
+
+Database:
+
+Roles:
+	RoleName
+	RoleDescription
+
+Users:
+	UserId
+	UserName
+	Password
+	ContactNo
+	EmailId
+	RoleName [ref: Roles]
+
+Patients:
+	PatientId [auto-generated]
+	GovtId
+	Idtype
+	PatientName
+	DOB
+	Gender
+	Image
+	ContactNo
+	Address
+	UserId [ref: Users]
+	
+Hospitals:
+	HospitalId
+	HospitalName
+	Address
+	ContactNo
+
+Nurses:
+	NurseId
+	NurseName
+	DOB
+	Gender
+	Image
+	ContactNo
+	Address
+	UserId [ref: Users]
+
+Pharmacies:
+	PharmacyId
+	PharmacyName
+	Address
+	ContactNo
+	UserId [ref: Users]
+	
+MedicationDetails:
+	MedicationId
+	PrescriptionId [ref: Prescriptions]
+	MedicationName
+	PharmacyId [ref: Pharmacies]
+	Quantity
+	RefillThreshold
+	Status [active, inactive, completed]
+	
+Reminders:
+  ReminderId 
+  MedicationId	
+  PatientId [ref: Patient]
+  RemindOn
+	
+Doctors:
+	DoctorId 
+	DoctorName
+	Specialization
+	HospitalId
+		
+Prescriptions:
+	PrescriptionId 
+	PrescribedBy [ref: Doctors]
+	PatientId [ref: Patients]
+	StartDate
+	EndDate
+	Prescription[doc]
+	Status [active, inactive, completed]
+	
+RefillRequests:
+  RefillRequestId
+  PrescriptionId [ref : Prescriptions]
+  RequestType [Prescription / Medication ]
+  RequestDate 
+  RefilledDate
+  RequestedBy
+  RequestedOn
+  FulfilledBy
+  FulfilledOn 
+  Status [Approved, Rejected, Pending]
+  Comments
+
+If refill type is:
+	Prescription - notify hospital
+	Medication - notify Pharmacy
+	
+
+mui-lab, react-swipeable-views is added in node modules for tabs
+react bootstrap for navbar
+
+Pharmacy: U002 password@123
+Provider: U001 Nitu@1511
+Patient: 0D90C42 Nitya@1234
+Admin: U003 Admin@1234
+
