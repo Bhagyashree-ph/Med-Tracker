@@ -1,0 +1,9 @@
+package com.medtracker.provider.entities;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "REMAINDERS")
+public class RemainderEO {
+
+}

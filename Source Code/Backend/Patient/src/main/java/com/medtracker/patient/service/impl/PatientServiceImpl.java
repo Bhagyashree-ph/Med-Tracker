@@ -1,0 +1,285 @@
+package com.medtracker.patient.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.medtracker.patient.entities.*;
+import com.medtracker.patient.repositories.*;
+import com.medtracker.patient.service.PatientService;
+
+@Service
+public class PatientServiceImpl implements PatientService {
+
+	@Autowired
+	private PatientRepository patientRepo;
+	
+	@Autowired
+	private NotificationsRepository notifyRepo;
+
+	@Autowired
+	private UserRepository userRepo;
+
+	@Autowired
+	private PrescMedMappingRepository prescMedRepo;
+
+	@Autowired
+	private PrescriptionRepository prescRepo;
+
+	@Autowired
+	private MedicationRepository medRepo;
+
+	@Autowired
+	private HospitalRepository hospitalRepo;
+
+	@Autowired
+	private DoctorRepository drRepo;
+
+	@Autowired
+	private PharmacyRepository pharmRepo;
+
+	@Autowired
+	private RefillRequestRepository refillRepo;
+
+	@Autowired
+	private ReminderRepository remRepo;
+	
+	@Autowired
+	private HospitalPharmacyRepository hospPharmRepo;
+
+	public String getPatientId(String firstName, String lastName) {
+		java.util.Date currentDate = new java.util.Date();
+		String day = String.format("%02d", currentDate.getDate());
+		String month = String.format("%02d", currentDate.getMonth() + 1);
+		String year = String.valueOf(currentDate.getYear() % 100);
+		String hour = String.format("%02d", currentDate.getHours());
+		String minute = String.format("%02d", currentDate.getMinutes());
+		String patientId = firstName.substring(0, 1).toUpperCase() + lastName.substring(0, 1).toUpperCase() + day
+				+ month + year + hour + minute;
+		return patientId;
+	}
+
+	@Override
+	public PatientEO fetchPatientByUserId(String userId){
+		return patientRepo.findByUserId(userId);
+	}
+	
+	@Override
+	public PatientEO fetchPatientById(String patientID) {
+		return patientRepo.findById(patientID).get();
+	}
+
+	@Override
+	public PatientEO addPatient(PatientEO patientEO) {
+		String patientId = getPatientId(patientEO.getFirstName(), patientEO.getLastName());
+		patientEO.setPatientId(patientId);
+		if (patientEO.getUser() != null) {
+			UserEO user = userRepo.save(patientEO.getUser());
+			if (user != null) {
+				patientEO.setUser(user);
+				return patientRepo.save(patientEO);
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public PatientEO updatePatient(PatientEO patientEO) {
+		return patientRepo.save(patientEO);
+	}
+
+	@Override
+	public UserEO updateUser(UserEO userEO) {
+		return userRepo.save(userEO);
+	}
+
+	/**
+	 * Adds a new prescription and medication for a patient.
+	 * 
+	 * This method takes a list of PrescMedMappingEO objects as input, which represents the prescription and medication details.
+	 * It first saves the prescription details, and finally saves the medication details.
+	 * The method returns a list of PrescMedMappingEO objects, which represents the saved prescription and medication details.
+	 * 
+	 * @param preMeds a list of PrescMedMappingEO objects, which represents the prescription and medication details
+	 * @return a list of PrescMedMappingEO objects, which represents the saved prescription and medication details
+	 */
+	@Override
+	public List<PrescMedMappingEO> addPrescriptionAndMedication(List<PrescMedMappingEO> preMeds) {
+		for (PrescMedMappingEO prescMedMappingEO : preMeds) {
+			System.out.println("Pre meds in Service : " + prescMedMappingEO);
+		}
+
+		// TransactionDefinition transactionDefinition = new
+		// DefaultTransactionDefinition();
+		// TransactionStatus status =
+		// transactionManager.getTransaction(transactionDefinition);
+
+		List<PrescMedMappingEO> returnedPreMeds = new ArrayList<>();
+		PrescriptionDetailEO presc = null;
+
+		if (preMeds.size() > 0 && preMeds.get(0).getPrescriptionDetails() != null) {
+			PrescriptionDetailEO prescDetails = preMeds.get(0).getPrescriptionDetails();
+			presc = prescRepo.save(prescDetails);
+			int count = 1;
+			for (PrescMedMappingEO prescMedMappingEO : preMeds) {
+				System.out.println("For iteration " + count + " : " + prescMedMappingEO);
+				try {
+					System.out.println("For iteration " + count + " : " + presc);
+					count++;
+					prescMedMappingEO.setPrescriptionDetails(presc);
+					if (prescMedMappingEO.getMedicationDetails() != null) {
+						MedicationDetailEO med = medRepo.save(prescMedMappingEO.getMedicationDetails());
+						prescMedMappingEO.setMedicationDetails(med);
+						PrescMedMappingEO preMed = prescMedRepo.save(prescMedMappingEO);
+						System.out.println("Printing preMed : " + preMed);
+
+						if (preMed != null) {
+							returnedPreMeds.add(preMed);
+							// transactionManager.commit(status);
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					// transactionManager.rollback(status);
+				}
+			}
+		}
+		return returnedPreMeds;
+	}
+
+	@Override
+	public List<PrescMedMappingEO> updatePrescriptionAndMedication(List<PrescMedMappingEO> preMeds) {
+		for (PrescMedMappingEO prescMedMappingEO : preMeds) {
+			System.out.println("Pre meds in Service : " + prescMedMappingEO);
+		}
+
+		// TransactionDefinition transactionDefinition = new
+		// DefaultTransactionDefinition();
+		// TransactionStatus status =
+		// transactionManager.getTransaction(transactionDefinition);
+
+		List<PrescMedMappingEO> returnedPreMeds = new ArrayList<>();
+		PrescriptionDetailEO presc = null;
+		if (preMeds.size() > 0 && preMeds.get(0).getPrescriptionDetails() != null) {
+			PrescriptionDetailEO prescDetails = preMeds.get(0).getPrescriptionDetails();
+			if (prescDetails.getPatient() != null) {
+				PatientEO patient = addPatient(prescDetails.getPatient());
+				prescDetails.setPatient(patient);
+				presc = prescRepo.save(prescDetails);
+			}
+
+			int count = 1;
+			for (PrescMedMappingEO prescMedMappingEO : preMeds) {
+				System.out.println("For iteration " + count + " : " + prescMedMappingEO);
+				try {
+					System.out.println("For iteration " + count + " : " + presc);
+					count++;
+					prescMedMappingEO.setPrescriptionDetails(presc);
+					if (prescMedMappingEO.getMedicationDetails() != null) {
+						MedicationDetailEO med = medRepo.save(prescMedMappingEO.getMedicationDetails());
+						prescMedMappingEO.setMedicationDetails(med);
+						PrescMedMappingEO preMed = prescMedRepo.save(prescMedMappingEO);
+						System.out.println("Printing preMed : " + preMed);
+
+						if (preMed != null) {
+							returnedPreMeds.add(preMed);
+							// transactionManager.commit(status);
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					// transactionManager.rollback(status);
+				}
+			}
+		}
+		return returnedPreMeds;
+	}
+
+	@Override
+	public RefillRequestEO sendRequest(RefillRequestEO refillRequestEO) {
+		return refillRepo.save(refillRequestEO);
+	}
+
+	@Override
+	public List<RefillRequestEO> fetchAllRequests(String patientId) {
+		return refillRepo.findAllByPatientId(patientId);
+	}
+
+	@Override
+	public List<RemainderEO> setRemainder(List<RemainderEO> reminders) {
+		List<RemainderEO> returnedRems = new ArrayList<>();
+		for (RemainderEO remainderEO : reminders) {
+			RemainderEO rem = remRepo.save(remainderEO);
+			if (rem != null) {
+				returnedRems.add(rem);
+			}
+		}
+		return returnedRems;
+	}
+
+	@Override
+	public List<HospitalEO> fetchAllHospitals() {
+		return hospitalRepo.findAll();
+	}
+
+	@Override
+	public List<DoctorEO> fetchAllDoctors() {
+		return drRepo.findAll();
+	}
+
+	@Override
+	public List<PrescriptionDetailEO> fetchAllPrescriptions(String patientId) {
+		return prescRepo.findAllByPatientId(patientId);
+	}
+
+	@Override
+	public List<PrescMedMappingEO> fetchAllMappings(String patientId) {
+		return prescMedRepo.findAllByPatientId(patientId);
+	}
+
+	@Override
+	public List<PrescMedMappingEO> fetchPrescMedDetails(Integer prescriptionId) {
+		return prescMedRepo.findAllByPrescriptionId(prescriptionId);
+	}
+
+	@Override
+	public List<Map<String, Object>> fetchProviders() {
+		return hospPharmRepo.findAllHospitalsAndPharmacies();
+	}
+
+	@Override
+	public List<NotificationEO> fetchAllNotifications(String patientId) {
+		List<NotificationEO> notifications = notifyRepo.findAllByPatientId(patientId);
+		System.out.println("In service ..");
+		for (NotificationEO notificationEO : notifications) {
+			System.out.println("Service : "+ notificationEO);
+		}
+		return notifications;
+	}
+
+	@Override
+	public void deleteNotification(Long notificationId) {
+		notifyRepo.deleteById(notificationId);
+	}
+
+	@Override
+	public MedicationDetailEO updateMedication(NotificationEO notify) {
+		MedicationDetailEO med = notify.getReminder().getMedicationDetail();
+		med.setQuantity(med.getQuantity() - 1);
+		med = medRepo.save(med);
+		notifyRepo.deleteById(notify.getNotificationId());
+		return med;
+	}
+
+}

@@ -1,0 +1,101 @@
+package com.medtracker.pharmacy.entities;
+
+import java.io.Serializable;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "USERS")
+public class UserEO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Column(name = "CONTACT_NO", length = 20)
+	private String contactNo;
+
+	@Column(name = "EMAIL_ID", unique = true, length = 100)
+	private String emailId;
+
+	@Column(length = 50)
+	private String password;
+
+	@Id
+	@Column(name = "USER_ID", nullable = false, length = 50)
+	private String userId;
+
+	@Column(name = "USER_NAME", length = 50)
+	private String userName;
+
+	@ManyToOne
+	@JoinColumn(name = "ROLE_NAME")
+	private RoleEO roles;
+
+	public UserEO() {
+		super();
+	}
+
+	public UserEO(String contactNo, String emailId, String password, String userId, String userName, RoleEO roles) {
+		super();
+		this.contactNo = contactNo;
+		this.emailId = emailId;
+		this.password = password;
+		this.userId = userId;
+		this.userName = userName;
+		this.roles = roles;
+	}
+
+	public String getContactNo() {
+		return contactNo;
+	}
+
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public RoleEO getRoles() {
+		return roles;
+	}
+
+	public void setRoles(RoleEO roles) {
+		this.roles = roles;
+	}
+
+	@Override
+	public String toString() {
+		return "UserEO [contactNo=" + contactNo + ", emailId=" + emailId + ", password=" + password + ", userId="
+				+ userId + ", userName=" + userName + ", roles=" + roles + "]";
+	}
+
+}

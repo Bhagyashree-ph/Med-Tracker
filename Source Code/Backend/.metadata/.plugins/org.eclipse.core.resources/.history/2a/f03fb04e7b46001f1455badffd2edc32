@@ -1,0 +1,32 @@
+package com.medtracker.patient.customRepo.impl;
+
+import java.io.Serializable;
+
+import javax.persistence.EntityManager;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.medtracker.patient.customRepo.CustomizedSave;
+import com.medtracker.patient.entities.UserEO;
+
+public class CustomizedSaveImpl implements CustomizedSave<UserEO, String> {
+	
+	@Autowired
+	private SessionFactory sessionFactoryref;
+	
+	@Override
+	public UserEO saveEntity(UserEO entity) {
+		Session session = sessionFactoryRef.openSession();
+		Transaction txn = session.beginTransaction();
+		String id = (String) session.save(entity);
+		txn.commit();
+		UserEO returnedEntity = session.get(UserEO.class, id);
+		session.close();
+		return returnedEntity;
+	}
+	
+}

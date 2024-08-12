@@ -1,0 +1,14 @@
+package com.medtracker.pharmacy.service;
+
+import java.util.List;
+
+import com.medtracker.pharmacy.entities.RefillRequestEO;
+
+public interface PharmacyService {
+
+	List<RefillRequestEO> fetchAllRequests();
+	
+	RefillRequestEO fetchRequestById(String requestId);
+	
+	RefillRequestEO updateRequest(RefillRequestEO refillRequestEO);
+}

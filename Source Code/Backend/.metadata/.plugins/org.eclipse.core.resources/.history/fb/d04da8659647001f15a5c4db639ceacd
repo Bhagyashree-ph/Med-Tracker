@@ -1,0 +1,5 @@
+package com.medtracker.patient.entities;
+
+public class PrescMedMappingEO {
+
+}

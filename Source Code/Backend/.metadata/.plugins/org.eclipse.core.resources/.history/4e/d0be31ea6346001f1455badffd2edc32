@@ -1,0 +1,22 @@
+package com.medtracker.patient.service;
+
+import java.util.List;
+
+import com.medtracker.patient.entities.PatientEO;
+import com.medtracker.patient.entities.UserEO;
+
+public interface PatientService {
+	
+	List<PatientEO> fetchAllPatients();
+	
+	PatientEO fetchPatientById(String patientID);
+	
+	PatientEO addPatient(PatientEO patientEO);
+	
+	PatientEO updatePatient(PatientEO patientEO);
+	
+	UserEO fetchUserById(String userID);
+	
+	UserEO addUser(UserEO userEO);
+
+}

@@ -1,0 +1,43 @@
+package com.medtracker.patient.service;
+
+import java.util.List;
+
+import com.medtracker.patient.entities.PatientEO;
+import com.medtracker.patient.entities.UserEO;
+import com.medtracker.patient.entities.DoctorEO;
+import com.medtracker.patient.entities.HospitalEO;
+import com.medtracker.patient.entities.RefillRequestEO;
+import com.medtracker.patient.entities.RemainderEO;
+import com.medtracker.patient.entities.PrescMedMappingEO;
+import com.medtracker.patient.entities.PrescriptionDetailEO;
+
+public interface PatientService {
+
+	PatientEO fetchPatientById(String patientID);
+
+	PatientEO addPatient(PatientEO patientEO);
+
+	PatientEO updatePatient(PatientEO patientEO);
+
+	UserEO updateUser(UserEO userEO);
+
+	List<PrescMedMappingEO> addPrescriptionAndMedication(List<PrescMedMappingEO> preMeds);
+
+	List<PrescMedMappingEO> updatePrescriptionAndMedication(List<PrescMedMappingEO> preMeds);
+
+	RefillRequestEO sendRequest(RefillRequestEO refillRequestEO);
+
+	List<RefillRequestEO> fetchAllRequests(String patientId);
+
+	List<RemainderEO> setRemainder(List<RemainderEO> remainderEO);
+
+	List<HospitalEO> fetchAllHospitals();
+
+	List<DoctorEO> fetchAllDoctors();
+	
+	List<PrescriptionDetailEO> fetchAllPrescriptions(String patientId);
+
+	List<PrescMedMappingEO> fetchAllMappings(String patientId);
+	
+	List<PrescMedMappingEO> fetchPrescMedDetails(Integer prescriptionId);
+}

@@ -1,0 +1,114 @@
+package com.medtracker.patient.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.medtracker.patient.entities.DoctorEO;
+import com.medtracker.patient.entities.HospitalEO;
+import com.medtracker.patient.entities.MedicationDetailEO;
+import com.medtracker.patient.entities.PatientEO;
+import com.medtracker.patient.entities.PrescMedMappingEO;
+import com.medtracker.patient.entities.PrescriptionDetailEO;
+import com.medtracker.patient.entities.RefillRequestEO;
+import com.medtracker.patient.entities.RemainderEO;
+import com.medtracker.patient.entities.UserEO;
+import com.medtracker.patient.service.PatientService;
+
+@RestController
+@RequestMapping("/patient")
+@CrossOrigin(origins = "http://localhost:3000")
+public class PatientController {
+
+	@Autowired
+	private PatientService patientService;
+
+	@GetMapping("/fetchPatientById/{patientID}")
+	public PatientEO fetchPatientById(@PathVariable String patientID) {
+		return patientService.fetchPatientById(patientID);
+	}
+
+	@PostMapping("/addPatient")
+	public PatientEO addPatient(@RequestBody PatientEO patientEO) {
+		return patientService.addPatient(patientEO);
+	}
+
+	@PutMapping("/updatePatient")
+	public PatientEO updatePatient(@RequestBody PatientEO patientEO) {
+		return patientService.updatePatient(patientEO);
+	}
+	
+	@PutMapping("/updateuser")
+	public UserEO updateUser(UserEO userEO) {
+		return patientService.updateUser(userEO);
+	}
+
+
+	public PrescMedMappingEO addPrescriptionAndMedication(PrescMedMappingEO prescMedMappingEO) {
+		return patientService.addPrescriptionAndMedication(prescMedMappingEO);
+	}
+
+
+	public PrescMedMappingEO updatePrescriptionAndMedication(PrescMedMappingEO prescMedMappingEO) {
+		PrescriptionDetailEO presc = null;
+		MedicationDetailEO med = null;
+		if (prescMedMappingEO != null) {
+			if (prescMedMappingEO.getPrescriptionDetails() != null
+					&& prescMedMappingEO.getMedicationDetails() != null) {
+				try {
+					presc = prescRepo.save(prescMedMappingEO.getPrescriptionDetails());
+					prescMedMappingEO.setPrescriptionDetails(presc);
+					med = medRepo.save(prescMedMappingEO.getMedicationDetails());
+					prescMedMappingEO.setMedicationDetails(med);
+					return prescMedRepo.save(prescMedMappingEO);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+
+
+	public RefillRequestEO sendRequest(RefillRequestEO refillRequestEO) {
+		return refillRepo.save(refillRequestEO);
+	}
+
+
+	public List<RefillRequestEO> fetchAllRequests(String patientId) {
+		return refillRepo.findAllByPatientId(patientId);
+	}
+
+
+	public RemainderEO setRemainder(RemainderEO remainderEO) {
+		return remRepo.save(remainderEO);
+	}
+
+
+	public List<HospitalEO> fetchAllHospitals() {
+		return hospitalRepo.findAll();
+	}
+
+
+	public List<DoctorEO> fetchAllDoctors() {
+		return drRepo.findAll();
+	}
+
+
+	public List<PrescriptionDetailEO> fetchAllPrescriptions(String patientId) {
+		return prescRepo.findAllByPatientId(patientId);
+	}
+
+
+	public List<PrescMedMappingEO> fetchPrescMedDetails(Integer prescriptionId) {
+		return prescMedRepo.findAllByPrescriptionId(prescriptionId);
+	}
+}

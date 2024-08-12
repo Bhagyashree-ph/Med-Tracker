@@ -1,0 +1,59 @@
+package com.medtracker.pharmacy.entities;
+
+
+import java.io.Serializable;
+
+import java.sql.Timestamp;
+
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "PRESCRIPTION_DETAILS")
+public class PrescriptionDetailEO  implements Serializable {
+	
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	@Column(length = 200)
+    private String ailment;
+	
+    @Column(name="END_DATE")
+    private Timestamp endDate;
+    
+    private byte[] prescription;
+    
+    @Id
+    @Column(name="PRESCRIPTION_ID", nullable = false)
+    private Long prescriptionId;
+    
+    @Column(name="START_DATE")
+    private Timestamp startDate;
+    
+    @ManyToOne
+    @JoinColumn(name = "STATUS")
+    private StatusEO status;
+    
+    @ManyToOne
+    @JoinColumn(name = "PATIENT_ID")
+    private PatientEO patient;
+
+    @ManyToOne
+    @JoinColumn(name = "PRESCRIBED_AT")
+    private HospitalEO hospital;
+    
+    @ManyToOne
+    @JoinColumn(name = "PRESCRIBED_BY")
+    private DoctorEO doctor;
+}

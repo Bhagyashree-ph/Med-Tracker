@@ -1,0 +1,17 @@
+package com.medtracker.provider.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.medtracker.provider.entities.PrescMedMappingEO;
+
+public interface PrescMedMappingRepository extends JpaRepository<PrescMedMappingEO, Integer> {
+
+	 @Query("SELECT pmm FROM PrescMedMapping pmm " +
+            "JOIN pmm.prescriptionDetails pd " +
+            "JOIN pd.patientDetails pdt " +
+            "WHERE pdt.patientId = :patientId")
+    List<PrescMedMapping> findByPatientId(@Param("patientId") String patientId);
+
+
+
+}

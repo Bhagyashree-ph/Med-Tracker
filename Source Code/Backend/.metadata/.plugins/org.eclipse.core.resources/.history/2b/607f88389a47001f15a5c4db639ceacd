@@ -1,0 +1,9 @@
+package com.medtracker.patient.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.medtracker.patient.entities.RefillRequestEO;
+
+public interface RefillRequestRepository extends JpaRepository<RefillRequestEO, String> {
+
+}

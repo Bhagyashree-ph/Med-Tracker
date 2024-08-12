@@ -1,0 +1,5 @@
+package com.medtracker.admin.service;
+
+public interface AdminService {
+
+}

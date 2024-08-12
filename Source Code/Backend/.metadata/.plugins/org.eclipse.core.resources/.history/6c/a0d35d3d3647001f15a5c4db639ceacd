@@ -1,0 +1,19 @@
+package com.medtracker.pharmacy.entities;
+
+import java.io.Serializable;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "STATUS")
+public class StatusEO implements Serializable {
+	
+    @Id
+    @Column(name="STATUS_CODE", nullable = false, length = 20)
+    private String statusCode;
+    
+    @Column(name="STATUS_LABEL", length = 20)
+    private String statusLabel;
+
+	
+}

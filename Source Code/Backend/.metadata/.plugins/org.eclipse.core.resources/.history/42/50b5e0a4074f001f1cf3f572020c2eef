@@ -1,0 +1,45 @@
+package com.medtracker.admin.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.medtracker.admin.entities.PatientEO;
+import com.medtracker.admin.repositories.PatientRepository;
+import com.medtracker.admin.service.AdminService;
+
+public class AdminServiceImpl implements AdminService {
+	
+	@Autowired
+	private PatientRepository patientRepo;
+
+	@Override
+	public PatientEO fetchPatientById(String patientID) {
+		return patientRepo.findById(patientID).get();
+	}
+
+	@Override
+	public PatientEO addPatient(PatientEO patientEO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PatientEO updatePatient(PatientEO patientEO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PatientEO> fetchAllPatients() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deletePatientById(String patientId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

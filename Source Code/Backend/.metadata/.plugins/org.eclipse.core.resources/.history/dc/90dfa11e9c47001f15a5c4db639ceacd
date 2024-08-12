@@ -1,0 +1,16 @@
+package com.medtracker.patient.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.medtracker.patient.entities.PrescMedMappingEO;
+import com.medtracker.patient.entities.PrescriptionDetailEO;
+
+public interface PrescriptionRepository extends JpaRepository<PrescriptionDetailEO, Integer> {
+
+	List<PrescMedMappingEO> findAllByPrescriptionId(Integer prescriptionId);
+
+	List<PrescriptionDetailEO> findAllByPatientId(String patientId);
+
+}

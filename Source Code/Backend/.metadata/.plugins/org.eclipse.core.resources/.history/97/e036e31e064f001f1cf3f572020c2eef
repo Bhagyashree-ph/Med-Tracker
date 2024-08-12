@@ -1,0 +1,6 @@
+package com.medtracker.admin.entities;
+
+public class Snippet {
+	All the provided objectives were met. Learnt new technologies like React js, Spring Boot. Completed all the assessments successfully.
+}
+

@@ -1,0 +1,159 @@
+package com.medtracker.pharmacy.entities;
+
+import java.io.Serializable;
+
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "REFILL_REQUESTS")
+public class RefillRequestEO implements Serializable {
+    @Column(length = 200)
+    private String comments;
+    @Column(name="FULFILLED_ON")
+    private Timestamp fulfilledOn;
+    @Column(name="REFILL_QUANTITY")
+    private Long refillQuantity;
+    @Id
+    @Column(name="REFILL_REQUEST_ID", nullable = false, length = 50)
+    private String refillRequestId;
+    @Column(name="REQUESTED_ON")
+    private Timestamp requestedOn;
+    @Column(name="REQUEST_TYPE", length = 20)
+    private String requestType;
+    @ManyToOne
+    @JoinColumn(name = "MEDICATION_ID")
+    private MedicationDetails medicationDetails;
+    @ManyToOne
+    @JoinColumn(name = "STATUS")
+    private Status status1;
+    @ManyToOne
+    @JoinColumn(name = "PRESCRIPTION_ID")
+    private PrescriptionDetails prescriptionDetails;
+    @ManyToOne
+    @JoinColumn(name = "FULFILLED_BY")
+    private Users users;
+    @ManyToOne
+    @JoinColumn(name = "REQUESTED_BY")
+    private Patients patients;
+
+    public RefillRequests() {
+    }
+
+    public RefillRequests(String comments, Users users,
+                          Timestamp fulfilledOn,
+                          MedicationDetails medicationDetails,
+                          PrescriptionDetails prescriptionDetails, Long refillQuantity,
+                          String refillRequestId, String requestType, Patients patients, Timestamp requestedOn,
+                          Status status1) {
+        this.comments = comments;
+        this.users = users;
+        this.fulfilledOn = fulfilledOn;
+        this.medicationDetails = medicationDetails;
+        this.prescriptionDetails = prescriptionDetails;
+        this.refillQuantity = refillQuantity;
+        this.refillRequestId = refillRequestId;
+        this.requestType = requestType;
+        this.patients = patients;
+        this.requestedOn = requestedOn;
+        this.status1 = status1;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+
+    public Timestamp getFulfilledOn() {
+        return fulfilledOn;
+    }
+
+    public void setFulfilledOn(Timestamp fulfilledOn) {
+        this.fulfilledOn = fulfilledOn;
+    }
+
+
+    public Long getRefillQuantity() {
+        return refillQuantity;
+    }
+
+    public void setRefillQuantity(Long refillQuantity) {
+        this.refillQuantity = refillQuantity;
+    }
+
+    public String getRefillRequestId() {
+        return refillRequestId;
+    }
+
+    public void setRefillRequestId(String refillRequestId) {
+        this.refillRequestId = refillRequestId;
+    }
+
+
+    public Timestamp getRequestedOn() {
+        return requestedOn;
+    }
+
+    public void setRequestedOn(Timestamp requestedOn) {
+        this.requestedOn = requestedOn;
+    }
+
+    public String getRequestType() {
+        return requestType;
+    }
+
+    public void setRequestType(String requestType) {
+        this.requestType = requestType;
+    }
+
+
+    public MedicationDetails getMedicationDetails() {
+        return medicationDetails;
+    }
+
+    public void setMedicationDetails(MedicationDetails medicationDetails) {
+        this.medicationDetails = medicationDetails;
+    }
+
+    public Status getStatus1() {
+        return status1;
+    }
+
+    public void setStatus1(Status status1) {
+        this.status1 = status1;
+    }
+
+    public PrescriptionDetails getPrescriptionDetails() {
+        return prescriptionDetails;
+    }
+
+    public void setPrescriptionDetails(PrescriptionDetails prescriptionDetails) {
+        this.prescriptionDetails = prescriptionDetails;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public Patients getPatients() {
+        return patients;
+    }
+
+    public void setPatients(Patients patients) {
+        this.patients = patients;
+    }
+}

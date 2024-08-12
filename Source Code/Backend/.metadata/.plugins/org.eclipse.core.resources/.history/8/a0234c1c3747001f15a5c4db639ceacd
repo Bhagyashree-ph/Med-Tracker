@@ -1,0 +1,26 @@
+package com.medtracker.pharmacy.entities;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "MEDICATION_DETAILS")
+public class MedicationDetailEO {
+
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @Column(name="MEDICATION_ID", nullable = false)
+    private Long medicationId;
+    
+    @Column(name="MEDICATION_NAME", length = 100)
+    private String medicationName;
+    
+    private Long quantity;
+    
+    @Column(name="REFILL_THRESHOLD")
+    private Long refillThreshold;
+    
+    @ManyToOne
+    @JoinColumn(name = "PHARMACY_ID", referencedColumnName="PHARMACY_ID")
+    private PharmacieSEO pharmacies;
+}

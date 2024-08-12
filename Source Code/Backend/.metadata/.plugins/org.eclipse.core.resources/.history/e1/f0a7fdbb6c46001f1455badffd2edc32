@@ -1,0 +1,6 @@
+package com.medtracker.patient.repositories;
+
+public interface CustomizedSave<T> {
+	
+	T save(T entity);
+}

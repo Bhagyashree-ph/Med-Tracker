@@ -1,0 +1,12 @@
+package com.medtracker.admin.service;
+
+import com.medtracker.admin.entities.PatientEO;
+
+public interface AdminService {
+
+	PatientEO fetchPatientById(String patientID);
+
+	PatientEO addPatient(PatientEO patientEO);
+
+	PatientEO updatePatient(PatientEO patientEO);
+}

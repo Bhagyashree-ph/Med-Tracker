@@ -1,0 +1,28 @@
+package com.medtracker.patient.repositories;
+
+import javax.persistence.EntityManager;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class CustomizedSaveImpl<T,ID> implements CustomizedSave<T> {
+	
+	private Class<T> entityType;
+
+	@Autowired
+	SessionFactory sessionFactoryRef;
+	
+	public CustomizedSaveImpl(Class<T> entityType) {
+		super();
+		this.entityType = entityType;
+	}
+
+	@Override
+	public T save(T entity) {
+		Session session = sessionFactoryRef.openSession();
+		ID id = (ID) session.save(entity); 
+		return session.get(entityType, id);
+	}
+
+}

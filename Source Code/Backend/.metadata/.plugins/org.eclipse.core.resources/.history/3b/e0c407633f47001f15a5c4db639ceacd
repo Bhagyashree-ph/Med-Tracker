@@ -1,0 +1,178 @@
+package com.medtracker.pharmacy.entities;
+
+import java.io.Serializable;
+
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "REFILL_REQUESTS")
+public class RefillRequestEO implements Serializable {
+	
+    /**
+	 * 
+	 */
+	private static final Long serialVersionUID = 1L;
+
+    @Id
+    @Column(name="REFILL_REQUEST_ID", nullable = false, length = 50)
+    private String refillRequestId;
+    
+	@Column(length = 200)
+    private String comments;
+    
+    @Column(name="FULFILLED_ON")
+    private Timestamp fulfilledOn;
+    
+    @Column(name="REFILL_QUANTITY")
+    private Integer refillQuantity;
+    
+    @Column(name="REQUESTED_ON")
+    private Timestamp requestedOn;
+    
+    @Column(name="REQUEST_TYPE", length = 20)
+    private String requestType;
+    
+    @ManyToOne
+    @JoinColumn(name = "MEDICATION_ID", referencedColumnName="MEDICATION_ID")
+    private MedicationDetailEO medicationDetails;
+    
+    @ManyToOne
+    @JoinColumn(name = "STATUS", referencedColumnName="STATUS_CODE")
+    private StatusEO status1;
+    
+    @ManyToOne
+    @JoinColumn(name = "PRESCRIPTION_ID", referencedColumnName="PRESCRIPTION_ID")
+    private PrescriptionDetailEO prescriptionDetails;
+    
+    @ManyToOne
+    @JoinColumn(name = "FULFILLED_BY", referencedColumnName="USER_ID")
+    private UserEO users;
+    
+    @ManyToOne
+    @JoinColumn(name = "REQUESTED_BY", referencedColumnName="PATIENT_ID")
+    private PatientEO patients;
+
+    public RefillRequestEO() {
+    }
+
+	public RefillRequestEO(String comments, Timestamp fulfilledOn, Integer refillQuantity, String refillRequestId,
+			Timestamp requestedOn, String requestType, MedicationDetailEO medicationDetails, StatusEO status1,
+			PrescriptionDetailEO prescriptionDetails, UserEO users, PatientEO patients) {
+		super();
+		this.comments = comments;
+		this.fulfilledOn = fulfilledOn;
+		this.refillQuantity = refillQuantity;
+		this.refillRequestId = refillRequestId;
+		this.requestedOn = requestedOn;
+		this.requestType = requestType;
+		this.medicationDetails = medicationDetails;
+		this.status1 = status1;
+		this.prescriptionDetails = prescriptionDetails;
+		this.users = users;
+		this.patients = patients;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public Timestamp getFulfilledOn() {
+		return fulfilledOn;
+	}
+
+	public void setFulfilledOn(Timestamp fulfilledOn) {
+		this.fulfilledOn = fulfilledOn;
+	}
+
+	public Integer getRefillQuantity() {
+		return refillQuantity;
+	}
+
+	public void setRefillQuantity(Integer refillQuantity) {
+		this.refillQuantity = refillQuantity;
+	}
+
+	public String getRefillRequestId() {
+		return refillRequestId;
+	}
+
+	public void setRefillRequestId(String refillRequestId) {
+		this.refillRequestId = refillRequestId;
+	}
+
+	public Timestamp getRequestedOn() {
+		return requestedOn;
+	}
+
+	public void setRequestedOn(Timestamp requestedOn) {
+		this.requestedOn = requestedOn;
+	}
+
+	public String getRequestType() {
+		return requestType;
+	}
+
+	public void setRequestType(String requestType) {
+		this.requestType = requestType;
+	}
+
+	public MedicationDetailEO getMedicationDetails() {
+		return medicationDetails;
+	}
+
+	public void setMedicationDetails(MedicationDetailEO medicationDetails) {
+		this.medicationDetails = medicationDetails;
+	}
+
+	public StatusEO getStatus1() {
+		return status1;
+	}
+
+	public void setStatus1(StatusEO status1) {
+		this.status1 = status1;
+	}
+
+	public PrescriptionDetailEO getPrescriptionDetails() {
+		return prescriptionDetails;
+	}
+
+	public void setPrescriptionDetails(PrescriptionDetailEO prescriptionDetails) {
+		this.prescriptionDetails = prescriptionDetails;
+	}
+
+	public UserEO getUsers() {
+		return users;
+	}
+
+	public void setUsers(UserEO users) {
+		this.users = users;
+	}
+
+	public PatientEO getPatients() {
+		return patients;
+	}
+
+	public void setPatients(PatientEO patients) {
+		this.patients = patients;
+	}
+
+	@Override
+	public String toString() {
+		return "RefillRequestEO [comments=" + comments + ", fulfilledOn=" + fulfilledOn + ", refillQuantity="
+				+ refillQuantity + ", refillRequestId=" + refillRequestId + ", requestedOn=" + requestedOn
+				+ ", requestType=" + requestType + ", medicationDetails=" + medicationDetails + ", status1=" + status1
+				+ ", prescriptionDetails=" + prescriptionDetails + ", users=" + users + ", patients=" + patients + "]";
+	}
+
+}

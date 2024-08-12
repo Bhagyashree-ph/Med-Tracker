@@ -1,0 +1,5 @@
+package com.medtracker.pharmacy.controller;
+
+public class PharmacyController {
+
+}

@@ -1,0 +1,39 @@
+package com.medtracker.admin.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.medtracker.admin.entities.PatientEO;
+import com.medtracker.admin.service.AdminService;
+
+@RestController
+@RequestMapping("/admin")
+@CrossOrigin(origins = "http://localhost:3000/")
+public class AdminController {
+	
+	@Autowired
+	private AdminService adminService;
+
+	@GetMapping("/fetchAllPatients")
+	public List<PatientEO> fetchAllPatients() {
+		return adminService.fetchAllPatients();
+	}
+
+	@PostMapping("/addPatient")
+	public PatientEO addPatient(@RequestBody PatientEO patientEO) {
+		
+	}
+
+	PatientEO updatePatient(PatientEO patientEO);
+	
+	PatientEO fetchPatientById(String patientID);
+	
+	void deletePatientById(String patientId);
+}

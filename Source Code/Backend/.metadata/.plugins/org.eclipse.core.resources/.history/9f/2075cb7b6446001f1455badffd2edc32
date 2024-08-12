@@ -1,0 +1,5 @@
+package com.medtracker.patient.repositories;
+
+public interface CustomRepository {
+
+}

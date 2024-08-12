@@ -1,0 +1,5 @@
+package com.medtracker.provider.entities;
+
+public class PrescriptionEO {
+
+}

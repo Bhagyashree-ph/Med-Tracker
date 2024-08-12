@@ -1,0 +1,37 @@
+package com.medtracker.pharmacy.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.medtracker.pharmacy.entities.RefillRequestEO;
+import com.medtracker.pharmacy.service.PharmacyService;
+
+@RestController
+@RequestMapping("/pharmacy")
+@CrossOrigin(origins = "http://localhost:3000")
+public class PharmacyController {
+	
+	@Autowired
+	private PharmacyService pharmService;
+	
+	@GetMapping("/FetchhAllRequests")
+	public List<RefillRequestEO> fetchAllRequests() {
+		return pharmService.fetchAllRequests();
+	}
+
+	@Override
+	public RefillRequestEO fetchRequestById(String requestId) {
+		return pharmService.fetchRequestById(requestId);
+	}
+
+	@Override
+	public RefillRequestEO updateRequest(RefillRequestEO refillRequestEO) {
+		return pharmService.updateRequest(refillRequestEO);
+	}
+
+}

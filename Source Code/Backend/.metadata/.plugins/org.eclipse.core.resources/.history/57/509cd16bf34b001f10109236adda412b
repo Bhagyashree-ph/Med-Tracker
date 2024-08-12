@@ -1,0 +1,59 @@
+package com.medtracker.provider.entities;
+
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+import java.sql.Date;
+import java.util.UUID;
+
+import javax.persistence.Column;
+
+@Entity
+@Table(name = "NURSES")
+public class NurseEO {
+
+	@Id
+	@Column(name = "NURSE_ID", updatable = false)
+	private String nurseId;
+
+	@Column(name = "NURSE_NAME")
+	private String nurseName;
+
+	@Column(name = "DOB")
+	private Date dob;
+
+	@Column(name = "AGE")
+	private Integer age;
+
+	@Column(name = "GENDER")
+	private String gender;
+
+	@Column(name = "IMAGE")
+	private byte[] image;
+
+	@Column(name = "CONTACT_NO")
+	private String contactNo;
+
+	@Column(name = "ADDRESS")
+	private String address;
+	
+	@ManyToOne
+	@JoinColumn(name="HOSPITAL_ID", referencedColumnName="HOSPITAL_ID")
+	private String hospitalId;
+	
+	@OneToOne
+	@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
+	private UserEO user;
+
+	
+
+}

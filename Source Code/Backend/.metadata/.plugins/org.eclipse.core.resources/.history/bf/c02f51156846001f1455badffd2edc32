@@ -1,0 +1,18 @@
+package com.medtracker.patient.repositories;
+
+import javax.persistence.EntityManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class CustomizedSaveImpl<T, U> implements CustomizedSave<T> {
+
+	@Autowired
+	EntityManager entityMgr;
+	
+	@Override
+	public T save(T entity) {
+		U id = entityMgr.persist(entity); 
+		return null;
+	}
+
+}

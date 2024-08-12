@@ -1,0 +1,93 @@
+package com.medtracker.pharmacy.entities;
+
+import java.io.Serializable;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "MEDICATION_DETAILS")
+public class MedicationDetailEO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name = "MEDICATION_ID", nullable = false)
+	private Integer medicationId;
+
+	@Column(name = "MEDICATION_NAME", length = 100)
+	private String medicationName;
+
+	private Long quantity;
+
+	@Column(name = "REFILL_THRESHOLD")
+	private Long refillThreshold;
+
+	@ManyToOne
+	@JoinColumn(name = "PHARMACY_ID", referencedColumnName = "PHARMACY_ID")
+	private PharmacieSEO pharmacies;
+
+	public MedicationDetailEO() {
+		super();
+	}
+
+	public MedicationDetailEO(Long medicationId, String medicationName, Long quantity, Long refillThreshold,
+			PharmacieSEO pharmacies) {
+		super();
+		this.medicationId = medicationId;
+		this.medicationName = medicationName;
+		this.quantity = quantity;
+		this.refillThreshold = refillThreshold;
+		this.pharmacies = pharmacies;
+	}
+
+	public Long getMedicationId() {
+		return medicationId;
+	}
+
+	public void setMedicationId(Long medicationId) {
+		this.medicationId = medicationId;
+	}
+
+	public String getMedicationName() {
+		return medicationName;
+	}
+
+	public void setMedicationName(String medicationName) {
+		this.medicationName = medicationName;
+	}
+
+	public Long getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
+	}
+
+	public Long getRefillThreshold() {
+		return refillThreshold;
+	}
+
+	public void setRefillThreshold(Long refillThreshold) {
+		this.refillThreshold = refillThreshold;
+	}
+
+	public PharmacieSEO getPharmacies() {
+		return pharmacies;
+	}
+
+	public void setPharmacies(PharmacieSEO pharmacies) {
+		this.pharmacies = pharmacies;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Override
+	public String toString() {
+		return "MedicationDetailEO [medicationId=" + medicationId + ", medicationName=" + medicationName + ", quantity="
+				+ quantity + ", refillThreshold=" + refillThreshold + "]";
+	}
+
+}

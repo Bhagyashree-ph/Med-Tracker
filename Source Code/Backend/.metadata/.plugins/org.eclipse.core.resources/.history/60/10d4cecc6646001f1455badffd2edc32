@@ -1,0 +1,11 @@
+package com.medtracker.patient.repositories;
+
+public class CustomizedSaveImpl<T> implements CustomizedSave<T> {
+
+	@Override
+	public T save(T entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

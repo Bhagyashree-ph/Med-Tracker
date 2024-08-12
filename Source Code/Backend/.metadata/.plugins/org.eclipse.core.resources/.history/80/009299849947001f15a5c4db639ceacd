@@ -1,0 +1,158 @@
+package com.medtracker.patient.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.medtracker.patient.entities.*;
+import com.medtracker.patient.entities.UserEO;
+import com.medtracker.patient.repositories.*;
+import com.medtracker.patient.service.PatientService;
+
+@Service
+public class PatientServiceImpl implements PatientService {
+
+	@Autowired
+	private PatientRepository patientRepo;
+
+	@Autowired
+	private UserRepository userRepo;
+
+	@Autowired
+	private PrescMedMappingRepository prescMedRepo;
+
+	@Autowired
+	private PrescriptionRepository prescRepo;
+
+	@Autowired
+	private MedicationRepository medRepo;
+
+	@Autowired
+	private HospitalRepository hospitalRepo;
+
+	@Autowired
+	private DoctorRepository drRepo;
+
+	@Autowired
+	private PharmacyRepository pharmRepo;
+
+	@Autowired
+	private RefillRequestRepository refillRepo;
+
+	@Autowired
+	private ReminderRepository remRepo;
+
+	public String getPatientId(String firstName, String lastName) {
+		java.util.Date currentDate = new java.util.Date();
+		String day = String.format("%02d", currentDate.getDate());
+		String month = String.format("%02d", currentDate.getMonth() + 1);
+		String year = String.valueOf(currentDate.getYear() % 100);
+		String hour = String.format("%02d", currentDate.getHours());
+		String minute = String.format("%02d", currentDate.getMinutes());
+		String patientId = firstName.substring(0, 1).toUpperCase() + lastName.substring(0, 1).toUpperCase() + day
+				+ month + year + hour + minute;
+		return patientId;
+	}
+
+	@Override
+	public PatientEO fetchPatientById(String patientID) {
+		return patientRepo.findById(patientID).get();
+	}
+
+	@Override
+	public PatientEO addPatient(PatientEO patientEO) {
+		String patientId = getPatientId(patientEO.getFirstName(), patientEO.getLastName());
+		patientEO.setPatientId(patientId);
+		if (patientEO.getUser() != null) {
+			UserEO user = userRepo.save(patientEO.getUser());
+			if (user != null) {
+				patientEO.setUser(user);
+				return patientRepo.save(patientEO);
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public PatientEO updatePatient(PatientEO patientEO) {
+		return patientRepo.save(patientEO);
+	}
+
+	@Override
+	public UserEO updateUser(UserEO userEO) {
+		return userRepo.save(userEO);
+	}
+
+	@Override
+	public PrescMedMappingEO addPrescriptionAndMedication(PrescMedMappingEO prescMedMappingEO) {
+		PrescriptionDetailEO presc = null;
+		MedicationDetailEO med = null;
+		if (prescMedMappingEO != null) {
+			if (prescMedMappingEO.getPrescriptionDetails() != null && prescMedMappingEO.getMedicationDetails() != null) {
+				try {	
+					presc = prescRepo.save(prescMedMappingEO.getPrescriptionDetails());
+					prescMedMappingEO.setPrescriptionDetails(presc);
+					med = medRepo.save(prescMedMappingEO.getMedicationDetails());
+					prescMedMappingEO.setMedicationDetails(med);
+					return prescMedRepo.save(prescMedMappingEO);
+				} catch (Exception ex) {
+						ex.printStackTrace();
+				}
+			}
+		}
+		return null;
+}
+
+	@Override
+	public PrescMedMappingEO updatePrescriptionAndMedication(PrescMedMappingEO prescMedMappingEO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RefillRequestEO sendRequest(RefillRequestEO refillRequestEO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RefillRequestEO> fetchAllRequests(String patientId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RemainderEO setRemainder(RemainderEO remainderEO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<HospitalEO> fetchAllHospitals() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<DoctorEO> fetchAllDoctors() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PrescriptionDetailEO> fetchAllPrescriptions(String patientId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PrescMedMappingEO> fetchPrescMedDetails(Integer prescriptionId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

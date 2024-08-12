@@ -1,0 +1,5 @@
+package com.medtracker.provider.service;
+
+public class ProviderService {
+
+}

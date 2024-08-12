@@ -1,0 +1,27 @@
+package com.medtracker.provider.entities;
+
+import java.sql.Timestamp;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "REMAINDERS")
+public class RemainderEO {
+
+    @Id
+    @Column(name="REMINDER_ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rem_seq")
+    @SequenceGenerator(name = "rem_seq", sequenceName = "REMINDER_SEQ", allocationSize = 1)
+    private Long reminderId;
+    
+    @Column(name="REMIND_ON")
+    private Timestamp remindOn;
+    
+    @ManyToOne
+    @JoinColumn(name = "MEDICATION_ID")
+    private MedicationDetails medicationDetails;
+    
+    @ManyToOne
+    @JoinColumn(name = "PATIENT_ID")
+    private Patients patients;
+}

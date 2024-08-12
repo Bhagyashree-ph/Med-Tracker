@@ -1,0 +1,19 @@
+package com.medtracker.provider.entities;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "PRESC_MED_MAPPINGS")
+public class PrescMedMappingEO {
+
+    @Id
+    @Column(name="MAPPING_ID", nullable = false)
+    private Long mappingId;
+    @ManyToOne
+    @JoinColumn(name = "MEDICATION_ID")
+    private MedicationDetails medicationDetails;
+    @ManyToOne
+    @JoinColumn(name = "PRESCRIPTION_ID")
+    private PrescriptionDetails prescriptionDetails;
+    
+}

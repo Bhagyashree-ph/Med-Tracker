@@ -1,0 +1,28 @@
+package com.medtracker.pharmacy.service.impl;
+
+import java.util.List;
+
+import com.medtracker.pharmacy.entities.RefillRequestEO;
+import com.medtracker.pharmacy.service.PharmacyService;
+
+public class PharmacyServiceImpl implements PharmacyService {
+
+	@Override
+	public List<RefillRequestEO> fetchAllRequests() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RefillRequestEO fetchRequestById(String requestId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RefillRequestEO updateRequest(RefillRequestEO refillRequestEO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
